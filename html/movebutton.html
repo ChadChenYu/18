@@ -10,13 +10,17 @@ var btn = document.createElement("BUTTON");
 btn.innerHTML = "DVD";
 document.body.appendChild(btn);
 
-// 設定初始位置和大小
+// 設定初始位置和大小，背景顏色
+document.body.style.backgroundColor = "black";
+btn.style.borderRadius = '60px'; // Add rounded corners
 btn.style.position = 'absolute';
 btn.style.left = '0px';
 btn.style.top = '0px';
-btn.style.width = '100px';
-btn.style.height = '50px';
+btn.style.width = '200px';
+btn.style.height = '100px';
 btn.style.backgroundColor = 'blue';
+btn.style.fontSize = "24px"
+
 
 // 設定移動速度
 var dx = 2;
@@ -28,12 +32,14 @@ function updatePosition() {
     var y = parseInt(btn.style.top, 10);
     var w = btn.offsetWidth;
     var h = btn.offsetHeight;
-
+    var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
     if (x + w + dx > window.innerWidth || x + dx < 0) {
         dx = -dx;
+        btn.style.backgroundColor = randomColor;
     }
     if (y + h + dy > window.innerHeight || y + dy < 0) {
         dy = -dy;
+        btn.style.backgroundColor = randomColor;
     }
 
     btn.style.left = (x + dx) + 'px';
