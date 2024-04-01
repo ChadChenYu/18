@@ -4,4 +4,4 @@ function printOddNumbers(n) {
         console.log(i);
     }
 }
-printOddNumbers(10)
+printOddNumbers(10);
