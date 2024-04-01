@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+<script>
+var button = document.createElement("BUTTON");
+button.innerHTML = "click me";
+document.body.appendChild(button);
+
+button.style.width = '100px';
+button.style.height = '50px';
+
+button.onclick = function ()
+{
+    button.style.width = (button.offsetWidth + 10) +'px';
+    button.style.height = (button.offsetHeight + 10) +'px';
+};
+</script>    
+  </body>
+</html>

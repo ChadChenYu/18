@@ -25,4 +25,4 @@ function sumprime(num) {
     return sum;
 }
 
-console.log(sumprime(10));
+console.log(sumprime(100));

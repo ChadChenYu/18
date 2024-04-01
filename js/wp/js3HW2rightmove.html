@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+<script>
+var button = document.createElement("BUTTON");
+button.innerHTML = "click me";
+document.body.appendChild(button);
+
+button.style.position = 'relative';
+button.style.left = '0px';
+
+button.onclick = function()
+{
+    button.style.left = (parseInt(button.style.left, 10) + 10) + 'px';
+};
+</script>    
+  </body>
+</html>
