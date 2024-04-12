@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .highlight {
+            color: pink;
+        }
+        #myDiv {
+            height: 100vh;
+            width: 50px;
+            background: linear-gradient(to bottom right, pink, purple);
+            transition: 1.5s;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        /* 懸浮視窗的樣式 */
+        #myModal {
+            display: block; /* 預設顯示 */
+            position: fixed; /* 懸浮於頁面上 */
+            z-index: 1; /* 位於其他內容之上 */
+            left: 0;
+            top: 0;
+            width: 100%; /* 全寬 */
+            height: 100%; /* 全高 */
+            overflow: auto; /* 啟用滾動條 */
+            background-color: rgb(0,0,0); /* 黑色背景 */
+            background-color: rgba(0,0,0,0.4); /* 黑色背景，半透明 */
+        }
+        #AD {
+            color: red;
+        }
+        /* 懸浮視窗內容的樣式 */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% 從上方開始，水平居中 */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* 寬度80% */
+        }
+        /* 關閉按鈕的樣式 */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: red;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="myDiv">
+        <h1>自我介紹</h1>
+        <p>大家好，我是<span class="highlight">陳辰鈺</span>，學號是<span class="highlight">111210518</span>。</p>
+        <p>我來自台灣，我喜歡程式設計和閱讀，對網際網路有很多疑問與期待。</p>
+        <a href="https://www.youtube.com/channel/UCuGLZ9S9SWiQY-gtXEgF2tg/">Visit my youtube channel!</a>
+        <br>
+        <a href="https://www.instagram.com/csie_chadchen/">Visit my IG !</a>
+        <br>
+        <a href="https://www.youtube.com/channel/UCuGLZ9S9SWiQY-gtXEgF2tg/">Visit my youtube channel!</a>
+        <br>
+    </div>
+    <!-- 懸浮視窗的HTML -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <p id="AD">Opps 你的裝置可能已經中毒，若此問題未能在兩分鐘內解決
+                則病毒將可能刪除您的資料!
+            </p>
+        </div>
+    </div>
+    <script>
+        var div = document.getElementById('myDiv');
+        div.onclick = function() {
+            if (div.style.width === '750px') {
+                div.style.width = '50px';
+            } else {
+                div.style.width = '750px';
+            }
+        }
+        // 獲取懸浮視窗元素
+        var modal = document.getElementById('myModal');
+        // 獲取關閉按鈕元素
+        var span = document.getElementsByClassName('close')[0];
+        // 當用戶點擊關閉按鈕時，隱藏懸浮視窗
+        span.onclick = function() {
+            modal.style.display = 'none';
+            // 如果懸浮視窗已經顯示了三次，則不再顯示
+            if (modal.getAttribute('data-count') < 3) {
+                setTimeout(function() {
+                    modal.style.display = 'block';
+                    modal.setAttribute('data-count', parseInt(modal.getAttribute('data-count')) + 1);
+                }, 2000); // 2秒後再次顯示懸浮視窗
+            }
+        }
+        // 初始化懸浮視窗的顯示次數
+        modal.setAttribute('data-count', 1);
+    </script>
+</body>
+</html>
