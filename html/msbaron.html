@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .highlight {
+            color: pink;
+        }
+        div {
+            height: 100vh;
+            width: 50px;
+            background: linear-gradient(to top right, pink,purple);
+            transition: 1.5s;
+            overflow: hidden; /* 隱藏超出 div 的內容 */
+            white-space: nowrap; /* 防止內容換行 */
+        }
+        div:hover {
+            width: 750px; /* 滑鼠懸停時寬度變為 300px */
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>自我介紹</h1>
+        <p>大家好，我是<span class="highlight">陳辰鈺</span>，學號是<span class="highlight">111210518</span>。</p>
+        <p>我來自台灣，我喜歡程式設計和閱讀，對網際網路與網頁設計有很多疑問與期待。</p>
+        <a href="https://www.youtube.com/channel/UCuGLZ9S9SWiQY-gtXEgF2tg/">Visit my youtube channel!</a>
+        <br>
+        <a href="https://www.instagram.com/csie_chadchen/">Visit my IG !</a>
+        <br>
+        <a href="https://www.youtube.com/channel/UCuGLZ9S9SWiQY-gtXEgF2tg/">Visit my youtube channel!</a>
+        <br>
+    </div>
+</body>
+</html>
