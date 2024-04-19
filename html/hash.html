@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html>
 <body>
-  <h2>SHA-256 Hash Generator</h2>
+  <h2>SHA-256 Proof of Work</h2>
   <input id="inputText" type="text" placeholder="Enter text here">
-  <button onclick="generateHash()">Generate Hash</button>
-  <p id="hashOutput"></p>
+  <button onclick="generateProofOfWork()">Generate Proof of Work</button>
+  <p id="output"></p>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
   <script>
-    async function generateHash() {
+    function generateProofOfWork() {
       const inputText = document.getElementById('inputText').value;
-      const hash = await hash(inputText);
-      document.getElementById('hashOutput').innerText = 'SHA-256 Hash: ' + hash;
+      const result = proofOfWork(inputText);
+      document.getElementById('output').innerText = 'Nonce: ' + result.nonce + '\nSHA-256 Hash: ' + result.hash;
     }
 
-    function hash(string) {
-      const utf8 = new TextEncoder().encode(string);
-      return window.crypto.subtle.digest('SHA-256', utf8).then((hashBuffer) => {
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map((bytes) => bytes.toString(16).padStart(2, '0')).join('');
-        return hashHex;
-      });
+    function proofOfWork(input) {
+      let nonce = 0;
+      while (true) {
+        let data = input + nonce;
+        let hash = CryptoJS.SHA256(data).toString();
+        if (hash.substring(0, 4) === '0000') {
+          return { nonce: nonce, hash: hash };
+        }
+        nonce++;
+      }
     }
   </script>
 </body>
