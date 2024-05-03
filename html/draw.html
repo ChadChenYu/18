@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>HTML5 Canvas Gradient Shadow</h1>
+
+<canvas id="myCanvas" width="300" height="150" style="border:1px solid grey">
+Sorry, your browser does not support canvas.
+</canvas>
+
+<script>
+const canvas = document.getElementById("myCanvas");
+const ctx = canvas.getContext("2d");
+
+let offset = 0;
+let secondRectangle = false;
+
+function draw() {
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Create gradient
+    let grd = ctx.createLinearGradient(20 + offset, 20, 120 + offset, 120);
+    grd.addColorStop(0, "yellow");
+    grd.addColorStop(0.33, "red");
+    grd.addColorStop(0.66, "blue");
+    grd.addColorStop(1, "limegreen");
+
+    // Calculate the center of the canvas
+    let centerX = canvas.width / 2;
+    let centerY = canvas.height / 2;
+
+    // Calculate the positions of the rectangles
+    let rectWidth = 100;
+    let rectHeight = 100;
+    let rectSpacing = 10;
+    let rectX1 = centerX - rectWidth - rectSpacing / 2;
+    let rectY1 = centerY - rectHeight / 2;
+    let rectX2 = centerX + rectSpacing / 2;
+    let rectY2 = centerY - rectHeight / 2;
+
+    // Draw multiple rectangles with different shadows
+    for (let i = 0; i < 10; i++) {
+        ctx.shadowColor = `rgba(${255 * i / 10}, ${255 * (10 - i) / 10}, 0, 0.1)`;
+        ctx.shadowOffsetX = i;
+        ctx.shadowOffsetY = i;
+
+        // Filled rectangle with gradient
+        ctx.fillStyle = grd;
+        ctx.fillRect(rectX1, rectY1, rectWidth, rectHeight);
+
+        // If the second rectangle is activated, draw it
+        if (secondRectangle) {
+            ctx.fillRect(rectX2, rectY2, rectWidth, rectHeight);
+        }
+    }
+
+    // Save the canvas state
+    ctx.save();
+
+    // Clear shadow
+    ctx.shadowColor = "transparent";
+
+    // Second Shadow
+    ctx.shadowColor = "lightblue";
+    ctx.shadowOffsetX = -10;
+    ctx.shadowOffsetY = -10;
+
+    // Draw the same rectangle with second shadow
+    ctx.fillRect(rectX1, rectY1, rectWidth, rectHeight);
+
+    // If the second rectangle is activated, draw it
+    if (secondRectangle) {
+        ctx.fillRect(rectX2, rectY2, rectWidth, rectHeight);
+    }
+
+    // Restore the canvas state
+    ctx.restore();
+
+    // Update the offset
+    offset = (offset + 1) % 100;
+
+    // If the gradient is cycling to yellow, activate the second rectangle
+    if (offset === 0) {
+        secondRectangle = true;
+    }
+
+    // Loop the animation
+    requestAnimationFrame(draw);
+}
+
+// Start the animation
+draw();
+</script>
+
+</body>
+</html>
