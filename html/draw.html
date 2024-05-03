@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<h1>HTML5 Canvas Gradient Shadow</h1>
+<h1>HTML5 Canvas Gradient Shadow with a Green Bug</h1>
 
 <canvas id="myCanvas" width="300" height="150" style="border:1px solid grey">
 Sorry, your browser does not support canvas.
@@ -14,6 +14,9 @@ const ctx = canvas.getContext("2d");
 
 let offset = 0;
 let secondRectangle = false;
+let bugX = 0;
+let bugY = 0;
+let bugDirection = 'right';
 
 function draw() {
     // Clear the canvas
@@ -83,6 +86,35 @@ function draw() {
     // If the gradient is cycling to yellow, activate the second rectangle
     if (offset === 0) {
         secondRectangle = true;
+    }
+
+    // Draw the bug
+    ctx.fillStyle = "green";
+    ctx.beginPath();
+    ctx.arc(bugX, bugY, 10, 0, 2 * Math.PI);
+    ctx.fill();
+
+    // Update the bug's position
+    if (bugDirection === 'right') {
+        bugX += 1;
+        if (bugX >= canvas.width) {
+            bugDirection = 'down';
+        }
+    } else if (bugDirection === 'down') {
+        bugY += 1;
+        if (bugY >= canvas.height) {
+            bugDirection = 'left';
+        }
+    } else if (bugDirection === 'left') {
+        bugX -= 1;
+        if (bugX <= 0) {
+            bugDirection = 'up';
+        }
+    } else if (bugDirection === 'up') {
+        bugY -= 1;
+        if (bugY <= 0) {
+            bugDirection = 'right';
+        }
     }
 
     // Loop the animation
