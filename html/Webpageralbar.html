@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .highlight {
+            color: pink;
+        }
+        #myDiv {
+            height: 100vh;
+            width: 50px;
+            background: linear-gradient(to bottom right, pink, purple);
+            transition: 1.5s;
+            overflow: hidden;
+            white-space: nowrap;
+            /* 添加動畫 */
+            animation: mydiv 6s infinite;
+        }
+        /* 定義動畫 */
+        @keyframes mymove {
+            0% {background: linear-gradient(to bottom right, blue, red);}
+            25% {background: linear-gradient(to bottom right, red, blue);}
+            50% {background: linear-gradient(to bottom right, blue, red);}
+            75% {background: linear-gradient(to bottom right, red, blue);}
+            100% {background: linear-gradient(to bottom right, blue, red);}
+        }
+        @keyframes mydiv {
+            0% {background: linear-gradient(to bottom right, pink, purple);}
+            25% {background: linear-gradient(to bottom right, purple, pink);}
+            50% {background: linear-gradient(to bottom right, pink, purple);}
+            75% {background: linebacar-gradient(to bottom right, purple, pink);}
+            87.5% {background: linear-gradient(to bottom right, pink, purple);}
+            100% {background: linebacar-gradient(to bottom right, purple, pink);}
+        }
+
+        /* 懸浮視窗的樣式 */
+        #myModal {
+            display: block; /* 預設顯示 */
+            position: fixed; /* 懸浮於頁面上 */
+            z-index: 1; /* 位於其他內容之上 */
+            left: 0;
+            top: 0;
+            width: 100%; /* 全寬 */
+            height: 100%; /* 全高 */
+            overflow: auto; /* 啟用滾動條 */
+            background-color: rgb(0,0,0); /* 黑色背景 */
+            background-color: rgba(0,0,0,0.4); /* 黑色背景，半透明 */
+            /* 添加動畫 */
+            animation: mymove 5s infinite;
+        }
+        #AD {
+            color: red;
+        }
+        /* 懸浮視窗內容的樣式 */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% 從上方開始，水平居中 */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* 寬度80% */
+            /* 添加動畫 */
+            animation: mymove 5s infinite;
+        }
+        /* 關閉按鈕的樣式 */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: red;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .Top-bar
+    {
+        background: linear-gradient(to top, #5fdcff, #45f406);
+        height: 50px;
+        position: flexd;
+        top: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .left-sidebar, .right-sidebar {
+            background: linear-gradient(to right,red , blue );
+            /* background-color不適用*/
+            width: 150px;
+            height: 100%;
+            position: fixed;
+            top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .right-sidebar {
+            background: linear-gradient(to right, blue , red );
+            /* background-color不適用*/
+            width: 150px;
+            height: 100%;
+            position: fixed;
+            top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .left-sidebar {
+            left: 0;
+        }
+        .right-sidebar {
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="Top-bar">
+        我叫上欄
+    </div>
+    <div class="left-sidebar">我叫左側欄</div>
+    <div class="right-sidebar">我叫右側欄</div>
+    <div id="myDiv">
+        <h1>自我介紹</h1>
+        <p>大家好，我是<span class="highlight">陳辰鈺</span>，學號是<span class="highlight">111210518</span>。</p>
+        <p>我來自台灣，我喜歡程式設計和閱讀，對網際網路有很多疑問與期待。</p>
+        <a href="https://www.youtube.com/channel/UCuGLZ9S9SWiQY-gtXEgF2tg/">Visit my youtube channel!</a>
+        <br>
+        <a href="https://www.instagram.com/csie_chadchen/">Visit my IG !</a>
+        <br>
+        <a href="https://www.youtube.com/channel/UCuGLZ9S9SWiQY-gtXEgF2tg/">Visit my youtube channel!</a>
+        <br>
+    </div>
+    <!-- 懸浮視窗的HTML -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <p id="AD">Opps! 你的裝置可能已經中毒，若此問題未能在兩分鐘內解決
+                則病毒將可能刪除您的資料!
+            </p>
+        </div>
+    </div>
+    <script>
+        var div = document.getElementById('myDiv');
+        div.onclick = function() {
+            if (div.style.width === '750px') {
+                div.style.width = '50px';
+            } else {
+                div.style.width = '750px';
+            }
+        }
+        // 獲取懸浮視窗元素
+        var modal = document.getElementById('myModal');
+        // 獲取關閉按鈕元素
+        var span = document.getElementsByClassName('close')[0];
+        // 當用戶點擊關閉按鈕時，隱藏懸浮視窗
+        span.onclick = function() {
+            modal.style.display = 'none';
+            // 如果懸浮視窗已經顯示了三次，則不再顯示
+            if (modal.getAttribute('data-count') < 3) {
+                setTimeout(function() {
+                    modal.style.display = 'block';
+                    modal.setAttribute('data-count', parseInt(modal.getAttribute('data-count')) + 1);
+                }, 2000); // 2秒後再次顯示懸浮視窗
+            }
+        }
+        // 初始化懸浮視窗的顯示次數
+        modal.setAttribute('data-count', 1);
+    </script>
+</body>
+</html>
