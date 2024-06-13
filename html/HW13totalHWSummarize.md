@@ -64,24 +64,22 @@ XX頭條，XX周刊。
 * [原始碼](https://github.com/ChadChenYu/18/blob/master/html/HW7hash.html)
 ---
 ### 作業8 Layout 佈局
-這裡是修改之前作業6的CSS側欄，加入兩側欄位以及上欄，當時我就在想應該要有點及彈出側欄才像是XX學校的網站，可惜沒有完成這目標，這次的彈出視窗加入了
-五顏六色的變化
+這裡是修改之前作業6的CSS側欄，加入兩側欄位以及上欄，當時我就在想應該要有點及彈出側欄才像是XX學校的網站，可惜沒有完成這目標，這次的彈出視窗加入了五顏六色的變化
 
-上排留了一小片空間放標題是想仿照教材範例特意設計的，不是錯誤。
-* [網頁](https://zerorezerorezero.github.io/wp/javascript/HW8/Layout.html)
-* [原始碼](https://github.com/zerorezerorezero/wp/tree/master/javascript/HW8)
+
+*  [原始碼](https://github.com/ChadChenYu/18/blob/master/html/HW8Webpageralbar.html)
+*  [網頁](https://chadchenyu.github.io/18/html/HW8Webpageralbar)
 ---
 
 ### 作業9 有繪圖的網頁
-僅參考教材工具，內容全部自己完成的。
-* [網頁](https://zerorezerorezero.github.io/wp/javascript/HW9/I%20can't%20draw.html)
-* [原始碼](https://github.com/zerorezerorezero/wp/tree/master/javascript/HW9)
-* [簡介](https://github.com/zerorezerorezero/wp/blob/master/javascript/HW9/README.md)
+全程由AI完成，但我大致理解，蟲子的身體是用arc函示與數學PI畫出邊框，再填滿綠色，而蟲子移動的路徑適用if else做出判斷。基於我畫出的長方形外框框做出判定，如果沒有它蟲子就會跑出螢幕外，製作的過程是反覆地向AI提出要求直到我滿意，就像台灣的老闆一樣 。
+* [網頁](https://chadchenyu.github.io/18/html/HW9draw)
+* [原始碼](https://github.com/ChadChenYu/18/blob/master/html/HW9draw.html)
 
 ---
 ### 作業10 用groq大語言模型LLM做一個簡單的網頁應用
-這份作業有點難，不太懂該怎麼寫，所以尚未完成。
+這堂課我只在YT上收看了一次直播，我能理解要做的事情，先註冊一組開源平台的帳號，獲取別人訓練好的模型的金鑰，寫出好幾個程式碼，套用金鑰，彼此與彼此連結協作達成，但是我沒有完成。
 
 ---
 ### 作業11 閱讀 denoApiService + Blog 的程式碼，並寫下理解然後為程式碼加上詳細的註解
-目前僅寫了少數幾行註解，尚未完成與繳交。
+沒有完成
