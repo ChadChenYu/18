@@ -8,8 +8,8 @@
   #results { margin-top: 20px; }
   .card-result { margin-bottom: 10px; }
   .statistics { margin-top: 20px; }
-  .card-image { height: 125px; } /* 設定圖片高度，您可以根據需要調整 */
-  .card-description { font-weight: bold; } /* 加粗描述文字 */
+  .card-image { height: 125px; } /* 設定圖片高度，根據需要調整 */
+  .card-description { font-weight: bold; } /* 加粗文字 */
 </style>
 </head>
 <body>
@@ -24,7 +24,7 @@
 <div class="statistics" id="statistics"></div>
 
 <script>
-    // 圖片URLs
+    // 圖片放置 URLs
 const imageUrls = 
 {
   threeStarWeapon: 'https://github.com/ChadChenYu/18/blob/master/M1911.jpg?raw=true', // 三星武器圖片URL
@@ -94,7 +94,7 @@ function drawCard(tenDraw, poolType)
     // 保底機制
     if (poolStatistics.totalDraws % 90 === 0 || poolStatistics.drawsSinceLastFiveStar % 90 === 0) 
     {
-      randomNumber = 0; // 強制五星
+      randomNumber = 0; // 保底五星
       poolStatistics.drawsSinceLastFiveStar = 0; // 重置抽卡次數
     }   else if (poolStatistics.totalDraws % 10 === 0 && randomNumber > 6.7104) 
         {
@@ -121,7 +121,7 @@ function drawCard(tenDraw, poolType)
           {
           result = '三星武器';
           imageUrl = imageUrls.threeStarWeapon;
-          poolStatistics.threeStarWeapon++; // 確保三星武器的計數
+          poolStatistics.threeStarWeapon++; // 三星武器的計數
           }
 
     drawResults += '<div class="card-result"><div class="card-description">抽卡結果: ' + result + '</div><img src="' + imageUrl + '" alt="' + result + '" class="card-image"></div>';
