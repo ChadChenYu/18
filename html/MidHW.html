@@ -45,7 +45,7 @@ let statistics = {
 };
 
 function calculateFiveStarRate(drawsSinceLastFiveStar) {
-  return drawsSinceLastFiveStar >= 75 ? baseRates.maxFiveStar : baseRates.fiveStar + (drawsSinceLastFiveStar * (baseRates.maxFiveStar - baseRates.fiveStar) / 75);
+  return drawsSinceLastFiveStar >= 55 ? baseRates.maxFiveStar : baseRates.fiveStar + (drawsSinceLastFiveStar * (baseRates.maxFiveStar - baseRates.fiveStar) / 55);
 }
 
 function drawCard(tenDraw, poolType) {
