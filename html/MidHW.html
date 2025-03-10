@@ -8,8 +8,8 @@
   #results { margin-top: 20px; }
   .card-result { margin-bottom: 10px; }
   .statistics { margin-top: 20px; }
-  .card-image { height: 125px; }
-  .card-description { font-weight: bold; }
+  .card-image { height: 125px; } /* 設定圖片高度，根據需要調整 */
+  .card-description { font-weight: bold; } /* 加粗文字 */
 </style>
 </head>
 <body>
@@ -24,89 +24,129 @@
 <div class="statistics" id="statistics"></div>
 
 <script>
-const imageUrls = {
-  threeStarWeapon: 'https://github.com/ChadChenYu/18/blob/master/M1911.jpg?raw=true',
-  fourStarCharacter: 'https://github.com/ChadChenYu/18/blob/master/Kita%20Ikuyo.jpg?raw=true',
-  fourStarWeapon: 'https://github.com/ChadChenYu/18/blob/master/T91.jpg?raw=true',
-  fiveStarCharacter: 'https://github.com/ChadChenYu/18/blob/master/Satono%20Diamond.jpg?raw=true',
-  fiveStarWeapon: 'https://github.com/ChadChenYu/18/blob/master/HK417A2.jpg?raw=true'
+    // 圖片放置 URLs
+const imageUrls = 
+{
+  threeStarWeapon: 'https://github.com/ChadChenYu/18/blob/master/M1911.jpg?raw=true', // 三星武器圖片URL
+  fourStarCharacter: 'https://github.com/ChadChenYu/18/blob/master/Kita%20Ikuyo.jpg?raw=true', // 四星角色圖片URL
+  fourStarWeapon: 'https://github.com/ChadChenYu/18/blob/master/T91.jpg?raw=true', // 四星武器圖片URL
+  fiveStarCharacter: 'https://github.com/ChadChenYu/18/blob/master/Satono%20Diamond.jpg?raw=true', // 五星角色圖片URL
+  fiveStarWeapon: 'https://github.com/ChadChenYu/18/blob/master/HK417A2.jpg?raw=true' // 五星武器圖片URL
+};
+const baseRates = 
+{
+  fiveStar: 0.5, // 五星基礎機率
+  maxFiveStar: 1.6052, // 五星最大機率
+  fourStarCharacter: 2.55, // 四星角色
+  fourStarWeapon: 2.55, // 四星武器
+  threeStarWeapon: 93.2898 // 三星武器
 };
 
-const baseRates = {
-  fiveStar: 0.5,
-  maxFiveStar: 1.6,
-  fourStar: 10,
-  threeStar: 89.5
+let statistics = 
+{
+  character: 
+  {
+    totalDraws: 0,
+    fiveStar: 0,
+    fourStarCharacter: 0,
+    fourStarWeapon: 0,
+    threeStarWeapon: 0,
+    drawsSinceLastFiveStar: 0 // 自上次五星後的抽卡次數
+  },
+  weapon: 
+  {
+    totalDraws: 0,
+    fiveStar: 0,
+    fourStarCharacter: 0,
+    fourStarWeapon: 0,
+    threeStarWeapon: 0,
+    drawsSinceLastFiveStar: 0 // 自上次五星後的抽卡次數
+  }
 };
 
-let statistics = {
-  character: { totalDraws: 0, fiveStar: 0, fourStar: 0, threeStar: 0, drawsSinceLastFiveStar: 0 },
-  weapon: { totalDraws: 0, fiveStar: 0, fourStar: 0, threeStar: 0, drawsSinceLastFiveStar: 0 }
-};
-
-function calculateFiveStarRate(drawsSinceLastFiveStar) {
-  return drawsSinceLastFiveStar >= 55 ? baseRates.maxFiveStar : baseRates.fiveStar + (drawsSinceLastFiveStar * (baseRates.maxFiveStar - baseRates.fiveStar) / 5);
+function calculateFiveStarRate(drawsSinceLastFiveStar) 
+{
+  if (drawsSinceLastFiveStar >= 35) 
+  {
+    return baseRates.maxFiveStar;
+  } else 
+    {
+    return baseRates.fiveStar + (drawsSinceLastFiveStar * (baseRates.maxFiveStar - baseRates.fiveStar) / 35);
+    }
 }
 
-function drawCard(tenDraw, poolType) {
+function drawCard(tenDraw, poolType) 
+{
   const resultsElement = document.getElementById('results');
   let draws = tenDraw ? 10 : 1;
   let drawResults = '';
   let poolStatistics = statistics[poolType];
-  let gotFourStar = false;
 
-  for (let i = 0; i < draws; i++) {
-    let result, imageUrl;
+  for (let i = 0; i < draws; i++) 
+  {
+    let result;
+    let imageUrl;
     let fiveStarRate = calculateFiveStarRate(poolStatistics.drawsSinceLastFiveStar);
     let randomNumber = Math.random() * 100;
     poolStatistics.totalDraws++;
     poolStatistics.drawsSinceLastFiveStar++;
 
-    if (poolStatistics.drawsSinceLastFiveStar >= 90) {
+    // 保底機制
+    if (poolStatistics.totalDraws % 90 === 0 || poolStatistics.drawsSinceLastFiveStar % 90 === 0) 
+    {
+      randomNumber = 0; // 保底五星
+      poolStatistics.drawsSinceLastFiveStar = 0; // 重置抽卡次數
+    }   else if (poolStatistics.totalDraws % 10 === 0 && randomNumber > 6.7104) 
+        {
+        randomNumber = Math.random() * 6.7104; // 重新計算四星和五星機率
+        }
+
+    if (randomNumber <= fiveStarRate) 
+    {
       result = poolType === 'character' ? '恭喜抽到五星角色!' : '恭喜抽到五星武器';
       imageUrl = poolType === 'character' ? imageUrls.fiveStarCharacter : imageUrls.fiveStarWeapon;
       poolStatistics.fiveStar++;
-      poolStatistics.drawsSinceLastFiveStar = 0;
-    } else if (randomNumber <= fiveStarRate) {
-      result = poolType === 'character' ? '恭喜抽到五星角色!' : '恭喜抽到五星武器';
-      imageUrl = poolType === 'character' ? imageUrls.fiveStarCharacter : imageUrls.fiveStarWeapon;
-      poolStatistics.fiveStar++;
-      poolStatistics.drawsSinceLastFiveStar = 0;
-    } else if (randomNumber <= fiveStarRate + baseRates.fourStar) {
-      result = '四星獎勵';
-      imageUrl = poolType === 'character' ? imageUrls.fourStarCharacter : imageUrls.fourStarWeapon;
-      poolStatistics.fourStar++;
-      gotFourStar = true;
-    } else {
-      result = '三星武器';
-      imageUrl = imageUrls.threeStarWeapon;
-      poolStatistics.threeStar++;
-    }
+      poolStatistics.drawsSinceLastFiveStar = 0; // 重置抽卡次數
+    } else if (randomNumber <= fiveStarRate + baseRates.fourStarCharacter) 
+      {
+      result = '四星角色';
+      imageUrl = imageUrls.fourStarCharacter;
+      poolStatistics.fourStarCharacter++;
+      } else if (randomNumber <= fiveStarRate + baseRates.fourStarCharacter + baseRates.fourStarWeapon) 
+        {
+        result = '四星武器';
+        imageUrl = imageUrls.fourStarWeapon;
+        poolStatistics.fourStarWeapon++;
+        } else 
+          {
+          result = '三星武器';
+          imageUrl = imageUrls.threeStarWeapon;
+          poolStatistics.threeStarWeapon++; // 三星武器的計數
+          }
 
-    drawResults += `<div class="card-result"><div class="card-description">${result}</div><img src="${imageUrl}" alt="${result}" class="card-image"></div>`;
-  }
-
-  if (tenDraw && !gotFourStar) {
-    result = '四星保底';
-    imageUrl = poolType === 'character' ? imageUrls.fourStarCharacter : imageUrls.fourStarWeapon;
-    poolStatistics.fourStar++;
-    drawResults += `<div class="card-result"><div class="card-description">${result}</div><img src="${imageUrl}" alt="${result}" class="card-image"></div>`;
+    drawResults += '<div class="card-result"><div class="card-description">抽卡結果: ' + result + '</div><img src="' + imageUrl + '" alt="' + result + '" class="card-image"></div>';
   }
 
   resultsElement.innerHTML = drawResults;
-  showStatistics(poolType);
+  showStatistics(poolType); // 確保在抽卡函數的最後調用統計函數
 }
 
-function showStatistics(poolType) {
+function showStatistics(poolType) 
+{
   const statisticsElement = document.getElementById('statistics');
   let poolStatistics = statistics[poolType];
-  let statsResults = `<h2>${poolType === 'character' ? '角色池' : '武器池'}統計</h2>`;
-  statsResults += `<div>總抽卡次數: ${poolStatistics.totalDraws}</div>`;
-  statsResults += `<div>五星數量: ${poolStatistics.fiveStar}</div>`;
-  statsResults += `<div>四星數量: ${poolStatistics.fourStar}</div>`;
-  statsResults += `<div>三星數量: ${poolStatistics.threeStar}</div>`;
+  let statsResults = '<h2>' + (poolType === 'character' ? '角色池' : '武器池') + '統計</h2>';
+
+  statsResults += '<div>總抽卡次數: ' + poolStatistics.totalDraws + '</div>';
+  statsResults += '<div>五星' + (poolType === 'character' ? '角色' : '武器') + '數量: ' + poolStatistics.fiveStar + '</div>';
+  statsResults += '<div>四星角色數量: ' + poolStatistics.fourStarCharacter + '</div>';
+  statsResults += '<div>四星武器數量: ' + poolStatistics.fourStarWeapon + '</div>';
+  statsResults += '<div>三星武器數量: ' + poolStatistics.threeStarWeapon + '</div>';
+
   statisticsElement.innerHTML = statsResults;
 }
+
+
 </script>
 
 </body>
