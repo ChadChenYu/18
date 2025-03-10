@@ -44,8 +44,9 @@ let statistics = {
   weapon: { totalDraws: 0, fiveStar: 0, fourStar: 0, threeStar: 0, drawsSinceLastFiveStar: 0 }
 };
 
+55抽以後五星機率遞增
 function calculateFiveStarRate(drawsSinceLastFiveStar) {
-  return drawsSinceLastFiveStar >= 75 ? baseRates.maxFiveStar : baseRates.fiveStar + (drawsSinceLastFiveStar * (baseRates.maxFiveStar - baseRates.fiveStar) / 75);
+  return drawsSinceLastFiveStar >= 55 ? baseRates.maxFiveStar : baseRates.fiveStar + (drawsSinceLastFiveStar * (baseRates.maxFiveStar - baseRates.fiveStar) / 55);
 }
 
 function drawCard(tenDraw, poolType) {
