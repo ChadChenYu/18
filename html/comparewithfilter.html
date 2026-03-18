@@ -3,155 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>濾鏡藝術對比 - 殿下專屬</title>
+    <title>殿下的濾鏡收藏館</title>
     <style>
-        :root {
-            --slider-pos: 50%; /* 初始位置 */
-        }
-
         body {
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f4;
+            background-color: #f0f0f0;
             font-family: "Microsoft JhengHei", sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 0;
         }
 
-        /* 容器設計 */
-        .comparison-container {
-            position: relative;
+        h1 { color: #333; margin-bottom: 40px; }
+
+        /* 每組對比的獨立外框 */
+        .comparison-wrapper {
+            margin-bottom: 60px;
             width: 90vw;
             max-width: 800px;
-            aspect-ratio: 2 / 3; /* 配合殿下圖片的比例 */
-            overflow: hidden;
-            border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            background-color: #eee;
         }
 
-        /* 圖片共用樣式 */
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 2 / 3; 
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            background-color: #fff;
+            --pos: 50%; /* 每個容器獨立的變數 */
+        }
+
         .comparison-container img {
             display: block;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* 確保圖片填滿且不變形 */
+            object-fit: cover;
             pointer-events: none;
         }
 
-        /* 下層：原始寫實版 (底圖) */
-        .image-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+        .image-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
 
-        /* 上層：濾鏡完美版 (裁切圖) */
         .image-foreground {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: var(--slider-pos);
+            position: absolute; top: 0; left: 0;
+            width: var(--pos);
             height: 100%;
             z-index: 2;
             overflow: hidden;
-            border-right: 2px solid white; /* 滑塊線條 */
+            border-right: 3px solid rgba(255,255,255,0.8);
         }
 
-        /* 修正上層圖片因容器寬度變動而縮放的問題 */
-        .image-foreground img {
-            width: 90vw;
-            max-width: 800px;
-        }
+        /* 修正內部圖片不隨父層縮放 */
+        .image-foreground img { width: 90vw; max-width: 800px; }
 
-        /* 原生滑塊 (透明層，負責偵測動作) */
         .slider {
-            position: absolute;
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            outline: none;
-            margin: 0;
-            top: 0;
-            left: 0;
-            z-index: 4;
-            cursor: ew-resize;
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            -webkit-appearance: none; appearance: none;
+            background: transparent; z-index: 4; cursor: ew-resize; margin: 0;
         }
 
-        /* 自訂滑塊圓圈按鈕 */
         .slider-button {
-            position: absolute;
-            top: 50%;
-            left: var(--slider-pos);
+            position: absolute; top: 50%; left: var(--pos);
             transform: translate(-50%, -50%);
-            width: 44px;
-            height: 44px;
-            background-color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            z-index: 3;
-            pointer-events: none;
+            width: 40px; height: 40px;
+            background: white; border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            z-index: 3; pointer-events: none;
+            display: flex; justify-content: center; align-items: center;
         }
 
-        /* 箭頭圖示 */
-        .slider-button::before {
-            content: '◀ ▶';
-            font-size: 12px;
-            color: #666;
-            letter-spacing: -1px;
-        }
+        .slider-button::after { content: '↔'; color: #888; font-weight: bold; }
 
-        /* 標籤提示 */
-        .label {
-            position: absolute;
-            bottom: 20px;
-            padding: 8px 15px;
-            background: rgba(0,0,0,0.5);
-            color: white;
-            border-radius: 5px;
-            font-size: 14px;
-            z-index: 5;
-            pointer-events: none;
+        .title-tag {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #555;
+            text-align: center;
+            font-weight: bold;
         }
-        .label-before { right: 20px; }
-        .label-after { left: 20px; }
     </style>
 </head>
 <body>
 
-    <div class="comparison-container" id="container">
-        <div class="image-background">
-            <img src="https://raw.githubusercontent.com/ChadChenYu/18/master/045509_00001_.png" alt="原始寫實版">
-        </div>
-        
-        <div class="image-foreground" id="foreground">
-            <img src="https://raw.githubusercontent.com/ChadChenYu/18/master/ComfyUI_temp_tylna_00030_.png" alt="濾鏡朦朧版">
-        </div>
+    <h1>✨ 朦朧美學對比館 ✨</h1>
 
-        <div class="label label-after">朦朧美 (Filter)</div>
-        <div class="label label-before">真實感 (Raw)</div>
+    <div class="comparison-wrapper">
+        <div class="comparison-container">
+            <div class="image-background"><img src="045509_00001_.png"></div>
+            <div class="image-foreground"><img src="ComfyUI_temp_tylna_00030_.png"></div>
+            <input type="range" min="0" max="100" value="50" class="slider">
+            <div class="slider-button"></div>
+        </div>
+        <div class="title-tag">第一卷：書房裡的靈動神韻</div>
+    </div>
 
-        <input type="range" min="0" max="100" value="50" class="slider" id="slider">
-        <div class="slider-button" id="button"></div>
+    <div class="comparison-wrapper">
+        <div class="comparison-container">
+            <div class="image-background"><img src="這裡放新的原始圖.png"></div>
+            <div class="image-foreground"><img src="這裡放新的濾鏡圖.png"></div>
+            <input type="range" min="0" max="100" value="50" class="slider">
+            <div class="slider-button"></div>
+        </div>
+        <div class="title-tag">第二卷：殿下的新收藏</div>
     </div>
 
     <script>
-        const slider = document.getElementById('slider');
-        const container = document.getElementById('container');
-        
-        slider.addEventListener('input', (e) => {
-            const value = e.target.value + '%';
-            // 使用 CSS 變數一次更新所有連動元件
-            container.style.setProperty('--slider-pos', value);
+        // 自動為頁面上所有的滑塊綁定功能
+        document.querySelectorAll('.comparison-wrapper').forEach(wrapper => {
+            const slider = wrapper.querySelector('.slider');
+            const container = wrapper.querySelector('.comparison-container');
+            
+            slider.addEventListener('input', (e) => {
+                container.style.setProperty('--pos', e.target.value + '%');
+            });
         });
     </script>
 
