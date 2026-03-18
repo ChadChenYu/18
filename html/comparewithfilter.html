@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>濾鏡藝術對比 - 殿下專屬</title>
+    <style>
+        :root {
+            --slider-pos: 50%; /* 初始位置 */
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            font-family: "Microsoft JhengHei", sans-serif;
+        }
+
+        /* 容器設計 */
+        .comparison-container {
+            position: relative;
+            width: 90vw;
+            max-width: 800px;
+            aspect-ratio: 2 / 3; /* 配合殿下圖片的比例 */
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            background-color: #eee;
+        }
+
+        /* 圖片共用樣式 */
+        .comparison-container img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 確保圖片填滿且不變形 */
+            pointer-events: none;
+        }
+
+        /* 下層：原始寫實版 (底圖) */
+        .image-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* 上層：濾鏡完美版 (裁切圖) */
+        .image-foreground {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: var(--slider-pos);
+            height: 100%;
+            z-index: 2;
+            overflow: hidden;
+            border-right: 2px solid white; /* 滑塊線條 */
+        }
+
+        /* 修正上層圖片因容器寬度變動而縮放的問題 */
+        .image-foreground img {
+            width: 90vw;
+            max-width: 800px;
+        }
+
+        /* 原生滑塊 (透明層，負責偵測動作) */
+        .slider {
+            position: absolute;
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            outline: none;
+            margin: 0;
+            top: 0;
+            left: 0;
+            z-index: 4;
+            cursor: ew-resize;
+        }
+
+        /* 自訂滑塊圓圈按鈕 */
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            left: var(--slider-pos);
+            transform: translate(-50%, -50%);
+            width: 44px;
+            height: 44px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* 箭頭圖示 */
+        .slider-button::before {
+            content: '◀ ▶';
+            font-size: 12px;
+            color: #666;
+            letter-spacing: -1px;
+        }
+
+        /* 標籤提示 */
+        .label {
+            position: absolute;
+            bottom: 20px;
+            padding: 8px 15px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border-radius: 5px;
+            font-size: 14px;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .label-before { right: 20px; }
+        .label-after { left: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="comparison-container" id="container">
+        <div class="image-background">
+            <img src="https://github.com/ChadChenYu/18/blob/master/045509_00001_.png" alt="原始寫實版">
+        </div>
+        
+        <div class="image-foreground" id="foreground">
+            <img src="https://github.com/ChadChenYu/18/blob/master/ComfyUI_temp_tylna_00030_.png" alt="濾鏡朦朧版">
+        </div>
+
+        <div class="label label-after">朦朧美 (Filter)</div>
+        <div class="label label-before">真實感 (Raw)</div>
+
+        <input type="range" min="0" max="100" value="50" class="slider" id="slider">
+        <div class="slider-button" id="button"></div>
+    </div>
+
+    <script>
+        const slider = document.getElementById('slider');
+        const container = document.getElementById('container');
+        
+        slider.addEventListener('input', (e) => {
+            const value = e.target.value + '%';
+            // 使用 CSS 變數一次更新所有連動元件
+            container.style.setProperty('--slider-pos', value);
+        });
+    </script>
+
+</body>
+</html>
